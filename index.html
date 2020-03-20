@@ -1,32 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Before Expire</title>
+    <link rel="icon" href="https://image.flaticon.com/icons/svg/859/859270.svg">
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            font-family: sans-serif;
+        }
+        .float{
+            position:fixed;
+           
+            bottom:40px;
+            right:40px;
+            color:#FFF;
+            text-align:center;
+        }
+    </style>
 </head>
+
 <body>
-    
-
-    <button onclick="subscribe()">subscribe</button>
-
-    <script>
-
-    addEventListener('load', async () => {
-        let sw = await navigator.serviceWorker.register('/sw.js');
-        console.log(sw);
-    });
-
-    async function subscribe() {
-        let sw = await navigator.serviceWorker.ready;
-        let push = await sw.pushManager.subscribe({
-            userVisibleOnly: true,
-            applicationServerKey: 'BPsIqVfCuke-WXVfHgaKQupC2e0_m2GevdDDhdRp_cABo1N5bRJN4E1JGL3k1loI8AVE9vA9jeOsarJTZ8MF8gw'
-        });
-        console.log(JSON.stringify(push));
-    }
-
-    </script>
-
+    <!-- don't touch code below -->
+    <h1 style="margin: 2vh 0 0 0">Your item</h1>
+    <div class="ui items">
+        {% for item in items%}
+        <div class="item">
+            <div class="ui small image">
+                {% if item.image == "" %}
+                <img src="https://image.flaticon.com/icons/svg/859/859270.svg" alt="{{name}}" style="widht:2vh"/>
+                {% else %}
+                <img src="data:image/jpeg;base64,{{item.image}}" alt="{{name}}" style="widht:2vh"/>
+                {% endif %}
+            </div>
+            <div class="middle aligned content">
+                <div class="header">
+                    <a href="{{ url_for('show_item',id=item.id) }}">
+                       {{item.id}}. {{item.name + " [EXP :" + item.date + "]"}}
+                    </a>
+                </div>
+                <div class="description">
+                    <p></p>
+                </div>
+                <div class="extra">
+                    <div class="ui right floated">
+                        <!-- <a href="/"><input type="submit" class="ui red button" value="REMOVE" /></a> -->
+                        <form action="{{ url_for('delete') }}" method = "POST">
+                            <!-- <input type="submit" class="ui red button" name = 'title' value={{item.id}} /> -->
+                            <button type="submit" class="ui red button" name = 'title' value={{item.id}}>REMOVE</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <a href="/create" class="float"><button type="submit" class="ui teal button" style="width: 100px;">ADD</button></a>
+    <!-- don't touch code below 
+    <form action="{{ url_for('delete') }}" method = "POST">
+        ID of items : <input name = 'title'/>
+         <input type="submit" class="ui red button"value="DELETE"/>
+     </form>
+     -->
 </body>
+
 </html>

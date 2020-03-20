@@ -1,0 +1,193 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Before Expire</title>
+    <link rel="icon" href="https://image.flaticon.com/icons/svg/859/859270.svg">
+
+    <style>
+        body {
+            display: flex;
+            height: auto;
+            justify-content: space-around;
+            align-items: center;
+            flex-direction: column;
+            font-family: sans-serif;
+        }
+
+        .box {
+            width: 75%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 120vh;
+            min-height: 50vh;
+        }
+
+        .form {
+            font-size: 18px;
+            width: 100%;
+            position: relative;
+            height: 70px;
+            overflow: hidden;
+        }
+
+        .form input {
+            font-size: 16px;
+            height: 100%;
+            color: black;
+            padding-top: 16px;
+            border: none;
+            outline: none;
+        }
+
+        .form label {
+            position: absolute;
+            bottom: 0px;
+            left: 0%;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            border-bottom: 1px solid black;
+        }
+
+        .form label::after {
+            content: "";
+            position: absolute;
+            left: 0px;
+            bottom: -1px;
+            height: 100%;
+            width: 100%;
+            border-bottom: 3px solid lightskyblue;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+
+        .content-name {
+            position: absolute;
+            bottom: 15px;
+            left: 0px;
+            transition: all 0.3s ease;
+        }
+
+        .form input:focus+.label-name .content-name,
+        .form input:valid+.label-name .content-name {
+            transform: translateY(-150%);
+            font-size: 16px;
+            color: lightskyblue;
+        }
+
+        .form input:focus+.label-name::after,
+        .form input:valid+.label-name::after {
+            transform: translateX(0%);
+        }
+
+        ::placeholder {
+            color: gray;
+        }
+
+        input {
+            width: 100%;
+        }
+
+        img {
+            max-height: 25vh;
+        }
+
+        input#file {
+            width: 25vh;
+            overflow: hidden;
+            padding: 0 0 0 0;
+        }
+
+        h1 {
+            padding: 20px;
+        }
+
+    </style>
+    <script>
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#blah').attr('src', e.target.result);
+                    console.log(e.target.result)
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+</head>
+
+
+<body>
+    <br />
+    <h1>Add item</h1>
+    <br />
+    <form class="box" action="{{ url_for('create_new_item') }}" method="POST" enctype=multipart/form-data>
+        <p style="font-size: 18px;">Today: {{ time }}</p>
+        <div style="align-items: center;">
+            <img id="blah" src="https://image.flaticon.com/icons/svg/859/859270.svg" alt="upload img"
+                style="align-items: center" />
+            <br />
+            <input type='file' id="file" class="ui blue basic button" onchange="readURL(this);" name="image" accept="image/jpeg" />
+        </div>
+        <div class="form">
+            <input type="text" name="name" autocomplete="off" required />
+            <label for="name" class="label-name">
+                <span class="content-name">Item's Name</span>
+            </label>
+        </div>
+        <br />
+
+        <div class="form">
+            <!-- <input type="text" name="date" autocomplete="off" onfocus="this.placeholder = 'dd/mm/yyyy'"
+                onblur="this.placeholder=''" required /> -->
+            <input type="text" required pattern="(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.]\d\d\d\d" 
+            name="date" onfocus="this.placeholder = 'dd/mm/yyyy'" onblur="this.placeholder=''">
+            <label for="name" class="label-name">
+                <span class="content-name">Expiry Date</span>
+            </label>
+        </div>
+        <br />
+
+        <span>
+            <a href="/" class="ui red button" style="width: 100px;">CANCEL</a>
+            <a href="/"><input type="submit" class="ui green button" value="SAVE" style="width: 100px;" /></a>
+        </span>
+    </form>
+    <!-- =============DEBUg ZONE=============== 
+    <p>Your item</p>
+    <ul>
+        {% for item in items %}
+        <li><a href="{{ url_for('show_item',id=item.id) }}">{{ item.name + "*** Expire (" + item.date + ") ***" }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+    =============DEBUg ZONEy=============== -->
+
+    <script>
+        addEventListener('load', async () => {
+            let sw = await navigator.serviceWorker.register('/sw.js');
+            console.log(sw);
+        });
+    
+        async function subscribe() {
+            let sw = await navigator.serviceWorker.ready;
+            let push = await sw.pushManager.subscribe({
+                userVisibleOnly: true,
+                applicationServerKey: 'BPsIqVfCuke-WXVfHgaKQupC2e0_m2GevdDDhdRp_cABo1N5bRJN4E1JGL3k1loI8AVE9vA9jeOsarJTZ8MF8gw'
+            });
+            console.log(JSON.stringify(push));
+        }
+
+
+    </script> 
+
+</body>
+</html>

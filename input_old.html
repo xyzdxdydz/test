@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Before Expire</title>
+    <style>
+        body {
+            height: 60vh;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-direction: column;
+            font-family: sans-serif;
+        }
+
+        .box {
+            width: 75%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 60vh;
+        }
+
+        .form {
+            font-size: 20px;
+            width: 100%;
+            position: relative;
+            height: 70px;
+            overflow: hidden;
+        }
+
+        .form input {
+            font-size: 18px;
+            height: 100%;
+            color: black;
+            padding-top: 16px;
+            border: none;
+            outline: none;
+        }
+
+        .form label {
+            position: absolute;
+            bottom: 0px;
+            left: 0%;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            border-bottom: 1px solid black;
+        }
+
+        .form label::after {
+            content: "";
+            position: absolute;
+            left: 0px;
+            bottom: -1px;
+            height: 100%;
+            width: 100%;
+            border-bottom: 3px solid lightskyblue;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+
+        .content-name {
+            position: absolute;
+            bottom: 5px;
+            left: 0px;
+            transition: all 0.3s ease;
+        }
+
+        .form input:focus+.label-name .content-name,
+        .form input:valid+.label-name .content-name {
+            transform: translateY(-250%);
+            font-size: 18px;
+            color: lightskyblue;
+        }
+
+        .form input:focus+.label-name::after,
+        .form input:valid+.label-name::after {
+            transform: translateX(0%);
+        }
+
+        ::placeholder {
+            color: gray;
+        }
+
+        input {
+            width: 100%;
+        }
+        
+    </style>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+</head>
+
+<body>
+    <h1 style="text-align:center">Add item</h1>
+    <form class="box" action="" method="POST">
+        <div class="takePhoto">
+            <input type="file" accept="image/*" capture="capture">
+        </div>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <div class="form">
+            <input type="text" name="name" autocomplete="off" required />
+            <label for="name" class="label-name">
+                <span class="content-name">Item's Name</span>
+            </label>
+        </div>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <div class="form">
+            <input type="text" name="date" autocomplete="off" onfocus="this.placeholder = 'dd/mm/yyyy'"
+            onblur="this.placeholder=''" required />
+            <label for="name" class="label-name">
+                <span class="content-name">Expiry Date</span>
+            </label>
+        </div>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <submit class="ui green button">SAVE</submit>
+    </form>
+
+</body>
+
+</html>

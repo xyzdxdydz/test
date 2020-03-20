@@ -1,0 +1,46 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Before Expire</title>
+    <link rel="icon" href="https://image.flaticon.com/icons/svg/859/859270.svg">
+
+    <style>
+        body {
+            height: 100vh;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-direction: column;
+            font-family: sans-serif;
+        }
+
+        img {
+            height: initial;
+            width: initial;
+            max-width: 80%;
+            max-height: 30%;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+</head>
+
+<body>
+    {% if image == "" %}
+    <img src="https://image.flaticon.com/icons/svg/859/859270.svg" alt="{{name}}" width="100px"/>
+    {% else %}
+    <img src="data:image/jpeg;base64,{{image}}" alt="{{name}}" width="100px" />
+    {% endif %}
+
+    <h1>{{ name }}</h1>
+    <p style="font-size: 18px;"><b> Today </b>: {{ time }}</p>
+    <p style="font-size: 18px;"><b> Expire</b>: {{date}}</p>
+
+
+    <a href="{{ url_for('index') }}"><button class="ui blue button" style="width: 100px;">HOME</button></a>
+</body>
+
+</html>
